@@ -158,3 +158,32 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Full answers are no longer read automatically.
 - When an answer is ready, the app only announces `Vastaus annettu.`
 - The user can listen to the full answer with `🔊 Kuuntele vastaus`.
+
+
+## License and third-party rules content
+
+The original Golf Rules AI application code is licensed under the MIT License;
+see `LICENSE`.
+
+The Rules of Golf and official Clarifications are third-party rules content
+published by The R&A and USGA. The Finnish Rules of Golf source used by the
+project is published by Suomen Golfliitto. Those materials, translations,
+logos, names and trademarks are not relicensed under this project's MIT
+License.
+
+The application uses official rules material as an external retrieval source.
+Users and redistributors are responsible for complying with the applicable
+terms and permissions for third-party material.
+
+Official sources:
+- The R&A Rules of Golf: https://www.randa.org/rules/rules-of-golf-home
+- The R&A Rules Resources / Additional Clarifications: https://www.randa.org/rules/rules-resources
+- Suomen Golfliitto rules page: https://golf.fi/pelaajalle/saannot/
+
+Release baseline: v2.0.3
+- Rules of Golf 2023
+- R&A Additional Clarifications indexed: 1 July 2026
+- OpenAI Vector Store / File Search
+- PWA/iPhone Home Screen support
+- Finnish speech input
+- Optional spoken answers
