@@ -125,12 +125,19 @@
       "id": "17.3",
       "rule_ref": "17.3",
       "title": "Muiden vapautumissääntöjen käyttö estealueella",
-      "content": "Kun pallo on estealueella, pelaaja ei yleensä saa ilmaista vapautumista esimerkiksi epänormaalista kenttäolosuhteesta, maahan painuneesta pallosta tai pelaamattomasta paikasta. Estealueelta vapautuminen tehdään tällöin säännön 17 perusteella, ellei jokin erityinen poikkeus sovellu.",
+      "content": "Kun pallo on estealueella, pelaaja ei saa ilmaista vapautumista epänormaalista kenttäolosuhteesta, maahan painuneesta pallosta (esimerkiksi oman lyönnin alastulojälkeen painuneesta pallosta) eikä pelaamattoman paikan perusteella. Pelaajan tavallinen vapautumisvaihtoehto on tällöin rangaistuksellinen vapautuminen säännön 17 perusteella. Vaarallisen eläimen tilanteeseen liittyy erillinen poikkeus.",
       "keywords": [
         "tilapäinen vesi",
         "maahan painunut",
+        "painunut pallo",
+        "omassa putoamisjäljessä",
+        "omassa alastulojäljessä",
+        "pallon jälki",
+        "uponnut",
         "pelaamaton paikka",
-        "ilmainen vapautuminen"
+        "ilmainen vapautuminen",
+        "ilmainen droppi",
+        "nostaa pallon"
       ]
     }
   ]

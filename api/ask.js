@@ -43,6 +43,26 @@ function outputText(response){
 
 function unique(arr){return [...new Set(arr)];}
 
+
+function normalizeFi(text){
+  return String(text || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9åäö\s-]/gi,' ').replace(/\s+/g,' ').trim();
+}
+function lexicalScore(query, chunk){
+  const q=normalizeFi(query);
+  let score=0;
+  for(const kw of (chunk.keywords||[])){
+    const k=normalizeFi(kw);
+    if(k && q.includes(k)) score+=0.18;
+  }
+  const embedded=/putoamisj|alastuloj|maahan pain|uponn|pallon jalj/.test(q);
+  const freeRelief=/ilman rangaist|ilmain|nostaa|vapaut/.test(q);
+  if(chunk.rule_ref==='17.3' && embedded) score+=0.60;
+  if(chunk.rule_ref==='17.3' && embedded && freeRelief) score+=0.30;
+  return score;
+}
+
 module.exports = async (req,res)=>{
   if(req.method!=='POST'){
     res.status(405).json({error:'Use POST'});
@@ -79,12 +99,13 @@ module.exports = async (req,res)=>{
 
     const vectors=emb.data.map(x=>x.embedding);
     const qv=vectors[0];
-    const ranked=chunks.map((c,i)=>({
-      ...c,
-      score:cosine(qv,vectors[i+1])
-    })).sort((a,b)=>b.score-a.score);
+    const ranked=chunks.map((c,i)=>{
+      const semantic=cosine(qv,vectors[i+1]);
+      const lexical=lexicalScore(retrievalQuery,c);
+      return {...c, semantic, lexical, score:semantic+lexical};
+    }).sort((a,b)=>b.score-a.score);
 
-    const retrieved=ranked.slice(0,4);
+    const retrieved=ranked.slice(0,3);
 
     const context=retrieved.map((c,i)=>
       `[Lähde ${i+1}] Sääntö ${c.rule_ref} – ${c.title}\n${c.content}`
@@ -102,7 +123,11 @@ Kerro rangaistus, jos se käy lähteestä ilmi.
 Jos ratkaisu riippuu puuttuvasta olennaisesta tiedosta, kysy yksi täsmällinen lisäkysymys.
 Jos lähdeaineisto ei riitä varmaan vastaukseen, sano se selvästi.
 Älä lainaa lähdettä pitkästi; selitä omin sanoin.
-Älä lisää sääntönumeroita vastauksen loppuun, koska käyttöliittymä näyttää lähdeviitteet erikseen.`;
+Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita tavallista selkeää tekstiä.
+Palauta AINOASTAAN kelvollinen JSON-objekti muodossa:
+{"answer":"vastausteksti","rule_refs":["17.3"]}
+rule_refs-taulukkoon saa lisätä vain ne sääntökohdat, joita answer todella käyttää perustelunaan.
+Älä listaa kaikkia RAG-haun lähteitä. Käytä vain RAG-lähteissä näkyviä sääntöviitteitä.`;
 
     const input=`KESKUSTELUHISTORIA:
 ${compactHistory || '(ei aiempaa keskustelua)'}
@@ -122,11 +147,21 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
       max_output_tokens:500
     });
 
-    const answer=outputText(response);
-    if(!answer) throw new Error('OpenAI ei palauttanut tekstivastausta.');
+    const raw=outputText(response);
+    if(!raw) throw new Error('OpenAI ei palauttanut tekstivastausta.');
 
-    // Expose refs from the retrieved evidence actually supplied to the answer model.
-    const ruleRefs=unique(retrieved.map(x=>x.rule_ref));
+    let parsed;
+    try{
+      const cleaned=raw.replace(/^```json\s*/i,'').replace(/```$/,'').trim();
+      parsed=JSON.parse(cleaned);
+    }catch(e){
+      parsed={answer:raw.replace(/\*\*/g,''),rule_refs:[]};
+    }
+
+    const answer=String(parsed.answer || '').replace(/\*\*/g,'').trim();
+    const allowed=new Set(retrieved.map(x=>x.rule_ref));
+    const ruleRefs=unique((Array.isArray(parsed.rule_refs)?parsed.rule_refs:[])
+      .map(String).filter(ref=>allowed.has(ref)));
 
     res.status(200).json({
       answer,

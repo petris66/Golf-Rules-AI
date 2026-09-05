@@ -48,3 +48,10 @@ Muita kokeita:
 Tämä versio käyttää vain säännön 17 rajattua testiaineistoa. Se ei vielä ole koko golfin sääntökirjan palvelu.
 
 Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin serverless-ympäristön (tai `vercel dev` -ajon) ja `OPENAI_API_KEY`-ympäristömuuttujan.
+
+
+## v1.1
+- Hybrid RAG: embeddings + pelaajakielen avainsanat.
+- Rule 17.3 tunnistaa myös putoamisjälki/alastulojälki-ilmaisut.
+- Näytetään vain vastauksessa oikeasti käytetyt sääntöviitteet.
+- Vastaukset ovat plain text -muodossa ilman näkyviä **-merkkejä.
