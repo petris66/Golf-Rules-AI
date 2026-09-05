@@ -55,3 +55,10 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Rule 17.3 tunnistaa myös putoamisjälki/alastulojälki-ilmaisut.
 - Näytetään vain vastauksessa oikeasti käytetyt sääntöviitteet.
 - Vastaukset ovat plain text -muodossa ilman näkyviä **-merkkejä.
+
+
+## v1.2
+- Vahvempi haku punaisen estealueen drop/vapautumiskysymyksille.
+- Vahvempi haku tilanteeseen, jossa viimeistä ylityskohtaa ei tiedetä.
+- Mallia ohjataan käyttämään lähdepalan olennainen tieto eikä väittämään tiedon puuttuvan, jos se on mukana.
+- Vastaukset aloitetaan suoralla käytännön vastauksella ja pidetään napakoina.

@@ -75,13 +75,17 @@
       "id": "17.1d-estimate",
       "rule_ref": "17.1d",
       "title": "Estealueen rajan ylityskohdan arvioiminen",
-      "content": "Jos tarkkaa kohtaa, jossa pallo viimeksi ylitti estealueen rajan, ei tiedetä, kohta arvioidaan. Arvioitua kohtaa käytetään tarvittavana vertailupisteenä vapautumista varten.",
+      "content": "Jos tarkkaa kohtaa, jossa pallo viimeksi ylitti estealueen rajan, ei tiedetä, pelaaja arvioi tämän kohdan parhaan saatavilla olevan tiedon perusteella. Tätä arvioitua ylityskohtaa käytetään säännön 17.1d mukaisena vertailupisteenä vapautumisessa.",
       "keywords": [
         "en tiedä ylityskohtaa",
-        "arvioitu piste",
+        "ei tiedä mistä kohtaa",
+        "tarkkaa ylityskohtaa ei tiedetä",
+        "mistä kohtaa pallo ylitti",
+        "ylityskohta",
         "arvioidaan",
-        "rajan ylitys",
-        "vertailupiste"
+        "arvioitu kohta",
+        "arvioi kohta",
+        "viimeksi ylitti estealueen rajan"
       ]
     },
     {
@@ -100,13 +104,19 @@
       "id": "17.1d-red",
       "rule_ref": "17.1d",
       "title": "Vapautuminen punaiselta estealueelta",
-      "content": "Punaiselta estealueelta pelaajalla on yhden rangaistuslyönnin hinnalla kolme vaihtoehtoa: lyönti ja lyöntimatka, linjassa taaksepäin sekä sivuttainen vapautuminen. Sivuttaisessa vapautumisessa vertailupiste on arvioitu kohta, jossa pallo viimeksi ylitti punaisen estealueen rajan. Vapautumisalue on kaksi mailanmittaa tästä pisteestä eikä saa olla lähempänä reikää.",
+      "content": "Kun pallo on punaisella estealueella, pelaajalla on yhden rangaistuslyönnin hinnalla lyönti ja lyöntimatka -vapautuminen, linjassa taaksepäin -vapautuminen sekä sivuttainen vapautuminen. Sivuttaisessa vapautumisessa vertailupiste on arvioitu kohta, jossa alkuperäinen pallo viimeksi ylitti punaisen estealueen rajan. Vapautumisalue on kaksi mailanmittaa tästä vertailupisteestä, ei lähemmäksi reikää kuin vertailupiste.",
       "keywords": [
         "punainen estealue",
-        "punainen vesieste",
+        "punaisesta estealueesta",
+        "punaiselle estealueelle",
+        "mistä dropata",
+        "dropata",
+        "droppi",
         "sivuttainen vapautuminen",
         "kaksi mailanmittaa",
-        "droppi"
+        "kahden mailanmitan",
+        "ylityskohta",
+        "vertailupiste"
       ]
     },
     {

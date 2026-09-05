@@ -60,6 +60,15 @@ function lexicalScore(query, chunk){
   const freeRelief=/ilman rangaist|ilmain|nostaa|vapaut/.test(q);
   if(chunk.rule_ref==='17.3' && embedded) score+=0.60;
   if(chunk.rule_ref==='17.3' && embedded && freeRelief) score+=0.30;
+
+  // Strong boosts for the two practical Rule 17.1d intents tested by players.
+  const redPenalty=/punai/.test(q) && /estealue|esteal/.test(q);
+  const asksDrop=/drop|vapaut|mista saan|mistä saan/.test(q);
+  const unknownCrossing=/(en tieda|ei tiedeta|ei tiedä|tarkkaa.*ei|mista kohtaa|mistä kohtaa)/.test(q)
+    && /(ylit|raja|ylitys)/.test(q);
+
+  if(chunk.id==='17.1d-red' && redPenalty && asksDrop) score+=0.85;
+  if(chunk.id==='17.1d-estimate' && unknownCrossing) score+=1.10;
   return score;
 }
 
@@ -115,17 +124,21 @@ module.exports = async (req,res)=>{
       `${m.role==='user'?'Pelaaja':'Avustaja'}: ${m.content}`
     ).join('\n');
 
-    const instructions=`Olet Golf Rules AI, golfin sääntöavustaja.
-Vastaa suomeksi ja käytä vain annettua RAG-lähdeaineistoa.
-Älä keksi sääntöä tai yksityiskohtaa, jota lähteissä ei ole.
-Vastaa ensin suoraan käyttäjän tilanteeseen selkokielellä.
-Kerro rangaistus, jos se käy lähteestä ilmi.
-Jos ratkaisu riippuu puuttuvasta olennaisesta tiedosta, kysy yksi täsmällinen lisäkysymys.
-Jos lähdeaineisto ei riitä varmaan vastaukseen, sano se selvästi.
-Älä lainaa lähdettä pitkästi; selitä omin sanoin.
-Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita tavallista selkeää tekstiä.
+    const instructions=`Olet Golf Rules AI. Vastaa suomeksi vain annettujen RAG-lähdepalojen perusteella.
+
+Tärkeimmät toimintaperiaatteet:
+1. Vastaa ensin käyttäjän kysymykseen suoraan. Jos vastaus on kyllä/ei, aloita kyllä/ei-vastauksella. Jos kysytään mistä saa dropata tai vapautua, kerro konkreettiset vapautumisvaihtoehdot ja vapautumisalue.
+2. Käytä kaikki kysymyksen kannalta olennainen tieto lähdepaloista. Älä sano "lähdeaineisto ei kerro", "lähteistä ei selviä" tai pyydä turhaa tarkennusta, jos jokin annetuista lähdepaloista sisältää vastauksen.
+3. Jos lähdepala sanoo, että jokin piste arvioidaan kun sitä ei tiedetä, kerro tämä käyttäjälle suoraan.
+4. Jos lähteet eivät aidosti riitä ratkaisemaan kysymystä, sano se lyhyesti ja kysy korkeintaan yksi täsmällinen jatkokysymys. Älä arvaa.
+5. Kerro rangaistus selkeästi, jos lähde sen kertoo.
+6. Käytä keskusteluhistoriaa vain kontekstin säilyttämiseen. Uusi kysymys ratkaisee, mikä tieto on nyt olennaista.
+7. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
+8. Älä lainaa lähteitä pitkästi; selitä omin sanoin.
+
 Palauta AINOASTAAN kelvollinen JSON-objekti muodossa:
-{"answer":"vastausteksti","rule_refs":["17.3"]}
+{"answer":"vastausteksti","rule_refs":["17.1d"]}
+
 rule_refs-taulukkoon saa lisätä vain ne sääntökohdat, joita answer todella käyttää perustelunaan.
 Älä listaa kaikkia RAG-haun lähteitä. Käytä vain RAG-lähteissä näkyviä sääntöviitteitä.`;
 
