@@ -31,11 +31,17 @@ async function openai(endpoint, body){
 }
 
 function outputText(response){
-  if(typeof response.output_text==='string' && response.output_text.trim()) return response.output_text.trim();
+  if(!response) return '';
+  if(typeof response.output_text==='string' && response.output_text.trim()){
+    return response.output_text.trim();
+  }
   const parts=[];
-  for(const item of response.output || []){
-    for(const c of item.content || []){
-      if(c.type==='output_text' && c.text) parts.push(c.text);
+  for(const item of (Array.isArray(response.output) ? response.output : [])){
+    if(typeof item?.text==='string' && item.text.trim()) parts.push(item.text);
+    for(const c of (Array.isArray(item?.content) ? item.content : [])){
+      if(typeof c?.text==='string' && c.text.trim()) parts.push(c.text);
+      else if(typeof c?.text?.value==='string' && c.text.value.trim()) parts.push(c.text.value);
+      else if(typeof c?.output_text==='string' && c.output_text.trim()) parts.push(c.output_text);
     }
   }
   return parts.join('\n').trim();
@@ -69,6 +75,15 @@ function lexicalScore(query, chunk){
 
   if(chunk.id==='17.1d-red' && redPenalty && asksDrop) score+=0.85;
   if(chunk.id==='17.1d-estimate' && unknownCrossing) score+=1.10;
+
+  const lostUncertain=/(en loyda|en löydä|kadonn|ei loydy|ei löydy)/.test(q)
+    && /(en ole varma|ei ole varma|ylittiko|ylittikö|takaraja|mets|estealue|vesieste)/.test(q);
+
+  if(chunk.id==='17.1c' && lostUncertain) score+=2.00;
+  if(chunk.id==='18.2-crossref' && lostUncertain) score+=1.80;
+  if(chunk.id==='17.1d-red' && lostUncertain) score-=0.55;
+  if(chunk.id==='17.1d-estimate' && lostUncertain) score-=0.45;
+
   return score;
 }
 
@@ -114,7 +129,7 @@ module.exports = async (req,res)=>{
       return {...c, semantic, lexical, score:semantic+lexical};
     }).sort((a,b)=>b.score-a.score);
 
-    const retrieved=ranked.slice(0,3);
+    const retrieved=ranked.slice(0,4);
 
     const context=retrieved.map((c,i)=>
       `[Lähde ${i+1}] Sääntö ${c.rule_ref} – ${c.title}\n${c.content}`
@@ -130,11 +145,12 @@ Tärkeimmät toimintaperiaatteet:
 1. Vastaa ensin käyttäjän kysymykseen suoraan. Jos vastaus on kyllä/ei, aloita kyllä/ei-vastauksella. Jos kysytään mistä saa dropata tai vapautua, kerro konkreettiset vapautumisvaihtoehdot ja vapautumisalue.
 2. Käytä kaikki kysymyksen kannalta olennainen tieto lähdepaloista. Älä sano "lähdeaineisto ei kerro", "lähteistä ei selviä" tai pyydä turhaa tarkennusta, jos jokin annetuista lähdepaloista sisältää vastauksen.
 3. Jos lähdepala sanoo, että jokin piste arvioidaan kun sitä ei tiedetä, kerro tämä käyttäjälle suoraan.
-4. Jos lähteet eivät aidosti riitä ratkaisemaan kysymystä, sano se lyhyesti ja kysy korkeintaan yksi täsmällinen jatkokysymys. Älä arvaa.
-5. Kerro rangaistus selkeästi, jos lähde sen kertoo.
-6. Käytä keskusteluhistoriaa vain kontekstin säilyttämiseen. Uusi kysymys ratkaisee, mikä tieto on nyt olennaista.
-7. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
-8. Älä lainaa lähteitä pitkästi; selitä omin sanoin.
+4. Jos käyttäjä kertoo, ettei palloa löydy eikä hän ole varma jäikö pallo estealueelle tai ylittikö se estealueen takarajan, ratkaise ensin säännön 17.1c kynnys. Estealueen vapautumista saa käyttää vain, jos tiedetään tai on käytännössä varmaa, että pallo päätyi estealueelle. Jos tätä varmuutta ei ole, kerro kadonneen pallon menettely säännön 18.2 mukaan. Älä kysy lisäkysymystä, jos käyttäjä on jo kertonut epävarmuudesta ja siitä, ettei palloa löydy.
+5. Jos lähteet eivät aidosti riitä ratkaisemaan kysymystä, sano se lyhyesti ja kysy korkeintaan yksi täsmällinen jatkokysymys. Älä arvaa.
+6. Kerro rangaistus selkeästi, jos lähde sen kertoo.
+7. Käytä keskusteluhistoriaa vain kontekstin säilyttämiseen. Uusi kysymys ratkaisee, mikä tieto on nyt olennaista.
+8. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
+9. Älä lainaa lähteitä pitkästi; selitä omin sanoin.
 
 Palauta AINOASTAAN kelvollinen JSON-objekti muodossa:
 {"answer":"vastausteksti","rule_refs":["17.1d"]}
@@ -161,7 +177,11 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
     });
 
     const raw=outputText(response);
-    if(!raw) throw new Error('OpenAI ei palauttanut tekstivastausta.');
+    if(!raw){
+      const types=(Array.isArray(response?.output)?response.output:[])
+        .map(x=>x?.type || 'unknown').join(', ');
+      throw new Error(`OpenAI-vastaus saatiin, mutta tekstisisältöä ei löytynyt${types ? ` (output: ${types})` : ''}.`);
+    }
 
     let parsed;
     try{
@@ -173,8 +193,11 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
 
     const answer=String(parsed.answer || '').replace(/\*\*/g,'').trim();
     const allowed=new Set(retrieved.map(x=>x.rule_ref));
-    const ruleRefs=unique((Array.isArray(parsed.rule_refs)?parsed.rule_refs:[])
+    let ruleRefs=unique((Array.isArray(parsed.rule_refs)?parsed.rule_refs:[])
       .map(String).filter(ref=>allowed.has(ref)));
+    if(ruleRefs.some(ref=>/^17\./.test(ref))){
+      ruleRefs=ruleRefs.filter(ref=>ref!=='17');
+    }
 
     res.status(200).json({
       answer,

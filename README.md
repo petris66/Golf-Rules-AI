@@ -62,3 +62,20 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Vahvempi haku tilanteeseen, jossa viimeistä ylityskohtaa ei tiedetä.
 - Mallia ohjataan käyttämään lähdepalan olennainen tieto eikä väittämään tiedon puuttuvan, jos se on mukana.
 - Vastaukset aloitetaan suoralla käytännön vastauksella ja pidetään napakoina.
+
+
+## v1.3
+- Robustimpi OpenAI Responses API -tekstin poiminta useista vastausrakenteista.
+- Tarkempi virheilmoitus, jos API-vastaus saadaan mutta tekstisisältö puuttuu.
+- Kadonneen pallon / epävarman estealueeseen päätymisen haku vahvistettu (17.1c).
+- Lisätty minimaalinen 18.2-ristiviite, jotta kadonneen pallon jatkomenettely voidaan vastata oikein.
+- Yleinen sääntöviite 17 poistetaan näkyvistä, jos mukana on tarkempi 17.x-viite.
+
+
+## v1.4
+- Korjattu epävarma estealue / kadonnut pallo -tilanne: 17.1c + 18.2 priorisoidaan 17.1d:n sijaan.
+- Lisätty selkeä 18.2-ristiviite kadonneen pallon menettelyyn.
+- OpenAI Responses API -tekstin poiminta tehty robustimmaksi.
+- Yleinen 17-viite poistetaan, kun tarkempi 17.x-viite on mukana.
+- Kysy jatkokysymys -painike on nyt sama tummanvihreä pääpainike kuin ensimmäinen Kysy-painike.
+- Golf-sovellusten vihreää visuaalista linjaa yhtenäistetty kevyesti ilman keskustelurakenteen muuttamista.

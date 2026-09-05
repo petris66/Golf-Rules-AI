@@ -49,13 +49,22 @@
       "id": "17.1c",
       "rule_ref": "17.1c",
       "title": "Palloa ei löydy estealueelta",
-      "content": "Jos palloa ei löydy mutta tiedetään tai on käytännössä varmaa, että se pysähtyi estealueelle, pelaaja voi vapautua estealuesäännön perusteella. Jos tätä varmuutta ei ole ja pallo on kadonnut, sovelletaan kadonneen pallon lyönti ja lyöntimatka -menettelyä.",
+      "content": "Jos palloa ei löydetä, estealueen vapautumista saa käyttää vain silloin, kun tiedetään tai on käytännössä varmaa, että pallo päätyi estealueelle. Jos pelaaja ei ole varma jäikö pallo estealueelle vai ylittikö se estealueen takarajan ja palloa ei löydy, estealueen vapautumista ei saa käyttää pelkän oletuksen perusteella. Tällöin palloa käsitellään kadonneena ja jatketaan säännön 18.2 mukaisella lyönti ja lyöntimatka -menettelyllä.",
       "keywords": [
+        "en löydä palloa",
+        "palloa ei löydy",
         "kadonnut pallo",
-        "ei löydy",
-        "käytännössä varma",
-        "lampi",
-        "vesi"
+        "vesiesteen suuntaan",
+        "estealueen suuntaan",
+        "en ole varma",
+        "ei ole varma",
+        "ylittikö takarajan",
+        "estealueen takaraja",
+        "metsän puolella",
+        "metsässä",
+        "käytännössä varmaa",
+        "jäikö estealueelle",
+        "tiedetään tai on käytännössä varmaa"
       ]
     },
     {
@@ -149,6 +158,22 @@
         "ilmainen droppi",
         "nostaa pallon"
       ]
+    },
+    {
+      "id": "18.2-crossref",
+      "rule_ref": "18.2",
+      "title": "Kadonnut pallo – lyönti ja lyöntimatka",
+      "content": "Jos palloa ei löydetä eikä tiedetä tai ole käytännössä varmaa, että se päätyi estealueelle, pallo on kadonnut. Pelaajan on jatkettava lyönti ja lyöntimatka -menettelyllä: yksi rangaistuslyönti lisätään ja pallo pelataan uudelleen mahdollisimman läheltä edellisen lyönnin paikkaa.",
+      "keywords": [
+        "kadonnut pallo",
+        "palloa ei löydy",
+        "en löydä palloa",
+        "lyönti ja lyöntimatka",
+        "18.2",
+        "ei ole varmaa estealueella",
+        "metsässä kadonnut"
+      ],
+      "source": "R&A Rules of Golf, Rule 18.2"
     }
   ]
 }
