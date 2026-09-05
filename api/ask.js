@@ -88,6 +88,12 @@ function lexicalScore(query, chunk){
   if(chunk.id==='17.1d-red' && redPenalty && asksDrop) score+=0.85;
   if(chunk.id==='17.1d-estimate' && unknownCrossing) score+=1.10;
 
+  const replayedFromPenalty=/(pelasin|pelattu|lyoin|lyöin|lyonti|lyönti)/.test(q)
+    && /(estealueelta|estealueelta)/.test(q)
+    && /(takaisin|samalle|toiselle)/.test(q)
+    && /(estealue|esteal)/.test(q);
+  if(chunk.rule_ref==='17.2a' && replayedFromPenalty) score+=1.65;
+
   const lostUncertain=/(en loyda|en löydä|kadonn|ei loydy|ei löydy)/.test(q)
     && /(en ole varma|ei ole varma|ylittiko|ylittikö|takaraja|mets|estealue|vesieste)/.test(q);
 

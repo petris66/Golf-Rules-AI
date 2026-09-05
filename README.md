@@ -103,3 +103,11 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - More tolerant parsing of OpenAI answer payloads while still blocking raw JSON from the player UI.
 - After an API/parser error the follow-up composer is always restored.
 - The failed question is prefilled so the player can retry immediately or edit it.
+
+
+## v1.8
+- Expanded Rule 17.2a source chunk to preserve its full decision structure.
+- Clarifies play-as-lies, the three normal one-stroke relief options, and the extra option of returning to the place of the last stroke made outside a penalty area.
+- Includes the two-penalty-stroke sequence when stroke-and-distance is first taken back into the penalty area and further relief is then taken outside it.
+- Added a general retrieval boost for a ball played from a penalty area that returns to the same or another penalty area.
+- v1.7 parser/retry fixes retained.

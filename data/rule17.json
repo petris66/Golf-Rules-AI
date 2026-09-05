@@ -1,7 +1,7 @@
 {
   "dataset": "Golf Rules AI - Rule 17 RAG test",
   "language": "fi",
-  "version": "1.6",
+  "version": "1.8",
   "source": {
     "publisher": "The R&A",
     "title": "Golfin Säännöt - Sääntö 17: Estealueet",
@@ -145,11 +145,19 @@
       "title": "Estealueelta pelattu pallo päätyy estealueelle",
       "content": "Jos estealueelta pelattu pallo päätyy samaan tai toiseen estealueeseen, pelaaja voi pelata sen paikaltaan tai käyttää säännön 17 mukaisia rangaistuksellisia vapautumisvaihtoehtoja. Joissakin tilanteissa käytössä on myös paluu paikkaan, josta edellinen lyönti estealueen ulkopuolelta pelattiin.",
       "keywords": [
-        "uudelleen estealueelle",
+        "edellinen lyönti estealueen ulkopuolelta",
         "estealueelta lyöty",
+        "estealueelta takaisin estealueelle",
+        "neljä vaihtoehtoa",
+        "pelasin estealueelta",
         "sama estealue",
-        "toinen estealue"
-      ]
+        "samalle estealueelle",
+        "toinen estealue",
+        "toiselle estealueelle",
+        "uudelleen estealueelle",
+        "ylimääräinen vapautumisvaihtoehto"
+      ],
+      "text": "Jos estealueelta pelattu pallo päätyy samalle tai toiselle estealueelle, pelaaja voi pelata pallon sijaintipaikaltaan ilman rangaistusta. Jos pelaaja vapautuu, hänellä on yhden rangaistuslyönnin hinnalla normaalit vaihtoehdot: (1) lyönti ja lyöntimatka edellisen lyönnin paikasta estealueella, (2) linjassa taaksepäin käyttäen vertailuna kohtaa, jossa pallo viimeksi ylitti sen estealueen rajan, jolla pallo nyt on, ja (3) punaisella estealueella sivuttainen vapautuminen samasta viimeisestä ylityskohdasta. Lisäksi 17.2a antaa ylimääräisen vaihtoehdon: pelaaja voi yhden rangaistuslyönnin hinnalla pelata alkuperäisen tai muun pallon paikasta, josta edellinen lyönti estealueen ulkopuolelta suoritettiin. Jos pelaaja ensin ottaa lyönti ja lyöntimatka -vapautumisen takaisin estealueelle ja päättää sen jälkeen vapautua estealueen ulkopuolelle, tästä tulee vielä yksi lisärangaistuslyönti eli yhteensä kaksi rangaistuslyöntiä."
     },
     {
       "id": "17.3",
