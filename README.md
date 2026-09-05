@@ -119,3 +119,19 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Added Rule 17.1e source data for a no-play zone inside a penalty area.
 - Added general retrieval support for the no-play-zone concept.
 - v1.8 Rule 17.2a data and v1.7 parser/retry UI fixes retained.
+
+## v2.0 — koko sääntökirjan RAG-pohja
+- `api/ask.js` käyttää OpenAI Responses API:n `file_search`-työkalua.
+- Vector store tunnistetaan Vercelin ympäristömuuttujalla `OPENAI_VECTOR_STORE_ID`.
+- Nykyistä `OPENAI_API_KEY`-muuttujaa käytetään edelleen; API-avainta ei siirretä selaimeen.
+- Jos vector storea ei ole vielä kytketty, API palauttaa hallitun 503-ilmoituksen eikä putoa vanhaan Rule 17 -aineistoon vahingossa.
+- `data/rule17.json` on jätetty pakettiin v1.9:n vertailu-/palautusaineistoksi, mutta v2.0 API ei käytä sitä.
+- `data/vector-store-metadata.json` pitää yllä sääntöedition ja Clarifications-version tilaa.
+- Footerin pieni `v2.0` avaa ylläpitopaneelin pitkällä painalluksella. Tavallinen käyttäjä ei tarvitse toimintoa.
+- Clarifications-tarkistus on tässä paketissa turvallinen käyttöliittymäpohja: se ei vielä muuta dataa automaattisesti.
+
+### Käyttöönoton seuraava askel
+1. Luo OpenAI-projektiin vector store nimellä esimerkiksi `Golf Rules AI`.
+2. Lisää koko hyväksytty sääntöaineisto vector storeen ja odota, että tiedostojen tila on `completed`.
+3. Lisää Verceliin ympäristömuuttuja `OPENAI_VECTOR_STORE_ID=vs_...`.
+4. Redeploy ja testaa ristiviittauskysymys (esim. Rule 17 + Rule 14).

@@ -136,3 +136,23 @@ function attachSpeech(button,target,status){
 }
 attachSpeech(mic,question,speechStatus);
 attachSpeech(followMic,followQuestion,followSpeechStatus);
+
+// v2.0 admin entry: intentionally unobtrusive. A long press opens maintenance.
+const adminEntry=document.getElementById('adminEntry');
+const adminPanel=document.getElementById('adminPanel');
+const adminClose=document.getElementById('adminClose');
+const checkClarifications=document.getElementById('checkClarifications');
+const adminStatus=document.getElementById('adminStatus');
+let adminTimer=null;
+function beginAdminPress(){ adminTimer=setTimeout(()=>adminPanel.classList.remove('hidden'),900); }
+function cancelAdminPress(){ if(adminTimer){clearTimeout(adminTimer);adminTimer=null;} }
+if(adminEntry){
+  adminEntry.addEventListener('pointerdown',beginAdminPress);
+  adminEntry.addEventListener('pointerup',cancelAdminPress);
+  adminEntry.addEventListener('pointerleave',cancelAdminPress);
+  adminEntry.addEventListener('pointercancel',cancelAdminPress);
+}
+if(adminClose) adminClose.addEventListener('click',()=>adminPanel.classList.add('hidden'));
+if(checkClarifications) checkClarifications.addEventListener('click',()=>{
+  adminStatus.textContent='v2.0-pohja on valmis. Automaattinen R&A-tarkistus kytketään vasta sääntöaineiston käyttöönoton jälkeen; mitään dataa ei muutettu.';
+});

@@ -180,103 +180,57 @@ module.exports = async (req,res)=>{
       return;
     }
 
-    const file=path.join(process.cwd(),'data','rule17.json');
-    const data=JSON.parse(fs.readFileSync(file,'utf8'));
-    const chunks=data.chunks || [];
-
-    // Use history only when the new turn is genuinely follow-up-like.
-    // A complete new question must not inherit facts (for example penalty-area colour)
-    // merely because they appeared earlier in the conversation.
-    const historyText=history.map(m=>`${m.role}: ${m.content}`).join('\n');
-    const qNorm=normalizeFi(question);
-    const followUpLike=/^(enta|entä|jos taas|mites|miten sitten|entäs|entäs jos)\b/.test(qNorm)
-      || question.trim().length < 38;
-    const retrievalQuery=(followUpLike && historyText ? historyText+'\n' : '')+'user: '+question;
-
-    // Real embedding-based RAG. For this tiny Rule 17 test we embed the query
-    // and all chunks in one request. Later the chunk embeddings can be precomputed.
-    const inputs=[
-      retrievalQuery,
-      ...chunks.map(c=>`${c.rule_ref} ${c.title}\n${c.content}\nHakusanat: ${(c.keywords||[]).join(', ')}`)
-    ];
-
-    const emb=await openai('/embeddings',{
-      model:'text-embedding-3-small',
-      input:inputs
-    });
-
-    const vectors=emb.data.map(x=>x.embedding);
-    const qv=vectors[0];
-    const ranked=chunks.map((c,i)=>{
-      const semantic=cosine(qv,vectors[i+1]);
-      const lexical=lexicalScore(retrievalQuery,c);
-      return {...c, semantic, lexical, score:semantic+lexical};
-    }).sort((a,b)=>b.score-a.score);
-
-    const retrieved=ranked.slice(0,4);
-
-    const context=retrieved.map((c,i)=>
-      `[Lähde ${i+1}] Sääntö ${c.rule_ref} – ${c.title}\n${c.content}`
-    ).join('\n\n');
+    const vectorStoreId=String(process.env.OPENAI_VECTOR_STORE_ID || '').trim();
+    if(!vectorStoreId){
+      res.status(503).json({
+        error:'Koko sääntökirjan haku ei ole vielä kytketty. OPENAI_VECTOR_STORE_ID puuttuu Vercelin Environment Variables -asetuksista.'
+      });
+      return;
+    }
 
     const compactHistory=history.map(m=>
       `${m.role==='user'?'Pelaaja':'Avustaja'}: ${m.content}`
     ).join('\n');
 
-    const instructions=`Olet Golf Rules AI. Vastaa suomeksi vain annettujen RAG-lähdepalojen perusteella.
+    const instructions=`Olet Golf Rules AI. Vastaa suomeksi käyttäjän golf-sääntökysymykseen käyttäen ensisijaisena tietolähteenä file_search-työkalulla haettavaa virallista sääntöaineistoa.
 
-Tärkeimmät toimintaperiaatteet:
-1. Vastaa ensin käyttäjän kysymykseen suoraan. Jos vastaus on kyllä/ei, aloita kyllä/ei-vastauksella. Jos kysytään mistä saa dropata tai vapautua, kerro konkreettiset vapautumisvaihtoehdot ja vapautumisalue.
-2. Käytä kaikki kysymyksen kannalta olennainen tieto lähdepaloista. Älä sano "lähdeaineisto ei kerro", "lähteistä ei selviä" tai pyydä turhaa tarkennusta, jos jokin annetuista lähdepaloista sisältää vastauksen.
-3. Jos lähdepala sanoo, että jokin piste arvioidaan kun sitä ei tiedetä, kerro tämä käyttäjälle suoraan.
-4. Jos käyttäjä kertoo, ettei palloa löydy eikä hän ole varma jäikö pallo estealueelle tai ylittikö se estealueen takarajan, ratkaise ensin säännön 17.1c kynnys. Estealueen vapautumista saa käyttää vain, jos tiedetään tai on käytännössä varmaa, että pallo päätyi estealueelle. Jos tätä varmuutta ei ole, kerro kadonneen pallon menettely säännön 18.2 mukaan. Älä kysy lisäkysymystä, jos käyttäjä on jo kertonut epävarmuudesta ja siitä, ettei palloa löydy.
-5. Jos lähteet eivät aidosti riitä ratkaisemaan kysymystä, sano se lyhyesti ja kysy korkeintaan yksi täsmällinen jatkokysymys. Älä arvaa.
-6. Kerro rangaistus selkeästi, jos lähde sen kertoo.
-7. Käytä keskusteluhistoriaa vain kontekstin säilyttämiseen. Uusi kysymys ratkaisee, mikä tieto on nyt olennaista.
-8. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
-9. Älä lainaa lähteitä pitkästi; selitä omin sanoin.
+Toimintaperiaatteet:
+1. Käytä file_search-hakua ennen sääntöratkaisua. Hae kaikki kysymyksen ratkaisemiseen tarvittavat sääntökohdat, myös eri sääntöjen väliset ristiviittaukset.
+2. Vastaa ensin käyttäjän kysymykseen suoraan ja selitä sitten lyhyesti, miten sääntöratkaisu muodostuu.
+3. Älä keksi puuttuvia tosiseikkoja. Jos ratkaisu aidosti riippuu yhdestä puuttuvasta tiedosta, kysy korkeintaan yksi täsmällinen jatkokysymys.
+4. Kerro rangaistus ja oikea toimintatapa selkeästi, kun aineisto ne kertoo.
+5. Käytä keskusteluhistoriaa vain aidon jatkokysymyksen kontekstina. Täydellinen uusi kysymys ratkaistaan omien tosiseikkojensa perusteella.
+6. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
+7. Älä lainaa sääntöaineistoa pitkästi; selitä omin sanoin.
+8. Lisää vastauksen loppuun omalle riville muodossa "Säännöt: 14.3, 14.5, 17.1d" vain ne sääntöviitteet, joita ratkaisu todella käyttää. Älä keksi sääntönumeroita.`;
 
-Palauta AINOASTAAN kelvollinen JSON-objekti muodossa:
-{"answer":"vastausteksti","rule_refs":["17.1d"]}
+    const input=`KESKUSTELUHISTORIA:\n${compactHistory || '(ei aiempaa keskustelua)'}\n\nUUSI KYSYMYS:\n${question}`;
 
-rule_refs-taulukkoon saa lisätä vain ne sääntökohdat, joita answer todella käyttää perustelunaan.
-Älä listaa kaikkia RAG-haun lähteitä. Käytä vain RAG-lähteissä näkyviä sääntöviitteitä.`;
+    async function createResponse(maxOutputTokens){
+      return openai('/responses',{
+        model:'gpt-5.6-luna',
+        instructions,
+        input,
+        tools:[{
+          type:'file_search',
+          vector_store_ids:[vectorStoreId],
+          max_num_results:8
+        }],
+        include:['file_search_call.results'],
+        reasoning:{effort:'low'},
+        max_output_tokens:maxOutputTokens
+      });
+    }
 
-    const input=`KESKUSTELUHISTORIA:
-${compactHistory || '(ei aiempaa keskustelua)'}
-
-UUSI KYSYMYS:
-${question}
-
-RAG-HAUN LÄHTEET:
-${context}
-
-Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
-
-    const response=await openai('/responses',{
-      model:'gpt-5.6-luna',
-      instructions,
-      input,
-      reasoning:{effort:'low'},
-      max_output_tokens:1200
-    });
-
-    let finalResponse=response;
+    let finalResponse=await createResponse(1600);
     let raw=outputText(finalResponse);
     if(!raw){
       const types=(Array.isArray(finalResponse?.output)?finalResponse.output:[])
         .map(x=>x?.type || 'unknown').join(', ');
       const onlyReasoning=types && types.split(',').map(x=>x.trim()).filter(Boolean)
         .every(x=>x==='reasoning');
-
       if(onlyReasoning || finalResponse?.status==='incomplete'){
-        finalResponse=await openai('/responses',{
-          model:'gpt-5.6-luna',
-          instructions,
-          input,
-          reasoning:{effort:'low'},
-          max_output_tokens:2400
-        });
+        finalResponse=await createResponse(3000);
         raw=outputText(finalResponse);
       }
     }
@@ -286,23 +240,28 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
       throw new Error(`OpenAI-vastaus saatiin, mutta lopullista tekstivastausta ei löytynyt${types ? ` (output: ${types})` : ''}.`);
     }
 
-    const parsed=parseAnswerPayload(raw);
-    if(!parsed || !parsed.answer){
-      throw new Error('Vastausta ei voitu jäsentää turvallisesti. Kysy sama kysymys uudelleen.');
+    let answer=String(raw).replace(/\*\*/g,'').trim();
+    let ruleRefs=[];
+    const rulesLine=answer.match(/(?:^|\n)Säännöt:\s*([^\n]+)\s*$/i);
+    if(rulesLine){
+      ruleRefs=unique(rulesLine[1].split(',').map(x=>x.trim()).filter(Boolean));
+      answer=answer.replace(/(?:^|\n)Säännöt:\s*[^\n]+\s*$/i,'').trim();
     }
 
-    const answer=String(parsed.answer || '').replace(/\*\*/g,'').trim();
-    const allowed=new Set(retrieved.map(x=>x.rule_ref));
-    let ruleRefs=unique((Array.isArray(parsed.rule_refs)?parsed.rule_refs:[])
-      .map(String).filter(ref=>allowed.has(ref)));
-    if(ruleRefs.some(ref=>/^17\./.test(ref))){
-      ruleRefs=ruleRefs.filter(ref=>ref!=='17');
+    const searchResults=[];
+    for(const item of (Array.isArray(finalResponse?.output)?finalResponse.output:[])){
+      if(item?.type==='file_search_call' && Array.isArray(item?.results)){
+        for(const r of item.results){
+          searchResults.push({filename:r?.filename || '', score:typeof r?.score==='number'?r.score:null});
+        }
+      }
     }
 
     res.status(200).json({
       answer,
       rule_refs:ruleRefs,
-      retrieved:retrieved.map(x=>({rule_ref:x.rule_ref,title:x.title,score:Number(x.score.toFixed(4))}))
+      rag_mode:'vector_store',
+      sources:searchResults.slice(0,8)
     });
   }catch(err){
     console.error(err);

@@ -10,7 +10,7 @@
 <body>
 <main class="wrap">
   <section class="card">
-    <div class="eyebrow">RAG-TESTIVERSIO v1.9 · SÄÄNTÖ 17</div>
+    <div class="eyebrow">RAG v2.0 · KOKO SÄÄNTÖKIRJA</div>
     <h1>Golf Rules AI</h1>
     <p class="lead">Kysy golfin säännöistä kirjoittamalla tai puhumalla.</p>
 
@@ -36,7 +36,17 @@
       <button id="followAsk" class="secondary" type="button">Kysy jatkokysymys</button>
     </section>
 
-    <p class="note">Testiversio käyttää pääosin R&A:n sääntöön 17 perustuvaa RAG-testiaineistoa sekä tarvittavaa 18.2-ristiviitettä. Vastauksessa näytetään haun käyttämät sääntöviitteet.</p>
+    <p class="note">v2.0 käyttää OpenAI Vector Store / File Search -hakua. Koko sääntöaineisto kytketään seuraavassa käyttöönottovaiheessa.</p>
+    <button id="adminEntry" class="adminEntry" type="button" aria-label="Ylläpito" title="Ylläpito">v2.0</button>
+
+    <section id="adminPanel" class="adminPanel hidden" aria-label="Ylläpito">
+      <div class="adminHead"><strong>Sääntöaineiston ylläpito</strong><button id="adminClose" type="button">Sulje</button></div>
+      <p>Rules of Golf: 2023</p>
+      <p>Clarifications indexed: odottaa käyttöönottoa</p>
+      <p>Latest R&A Clarifications: tarkistetaan ylläpitotoiminnolla</p>
+      <button id="checkClarifications" class="secondary" type="button">Tarkista Clarifications</button>
+      <div id="adminStatus" class="status">Tarkistus ei muuta sääntödataa.</div>
+    </section>
   </section>
 </main>
 <script src="app.js"></script>
