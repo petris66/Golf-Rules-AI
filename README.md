@@ -187,3 +187,13 @@ Release baseline: v2.0.3
 - PWA/iPhone Home Screen support
 - Finnish speech input
 - Optional spoken answers
+
+
+## v2.0.4 — visual palette alignment
+- Visual colors aligned with the Golf Friend Finder palette.
+- Page background: `#4f7d3a`
+- Cards: `#dcefcf`
+- Card borders: `#b8d59f`
+- Primary buttons: `#2f7d3e`
+- Inputs / answer surface: `#f7fff2`
+- Functional logic, RAG, speech input/output and API behavior unchanged.

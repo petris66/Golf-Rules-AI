@@ -143,3 +143,81 @@ button[type="submit"],
   cursor:pointer;
 }
 .speakButton:active{transform:translateY(1px)}
+
+
+/* --- v2.0.4: Golf Friend Finder visual palette --- */
+:root{
+  --friend-bg:#4f7d3a;
+  --friend-card:#dcefcf;
+  --friend-border:#b8d59f;
+  --friend-hero-a:#245f2d;
+  --friend-hero-b:#6aa84f;
+  --friend-primary:#2f7d3e;
+  --friend-input:#f7fff2;
+  --friend-text:#17351d;
+  --friend-heading:#24552d;
+}
+
+body{
+  background:var(--friend-bg);
+  color:var(--friend-text);
+}
+
+.card{
+  background:var(--friend-card);
+  border-color:var(--friend-border);
+}
+
+.questionCard{
+  background:var(--friend-card);
+  border-color:var(--friend-border);
+}
+
+.answerCard{
+  background:var(--friend-input);
+  border-color:var(--friend-border);
+}
+
+textarea{
+  background:var(--friend-input);
+  color:var(--friend-text);
+  border-color:#a9c88f;
+}
+
+.primary,
+.secondary{
+  background:var(--friend-primary);
+  color:#fff;
+  border-color:var(--friend-primary);
+}
+
+.mic{
+  background:var(--friend-input);
+  color:var(--friend-heading);
+  border-color:#a9c88f;
+}
+
+.questionLabel,
+.answerLabel,
+.eyebrow,
+label,
+h1{
+  color:var(--friend-heading);
+}
+
+.speakButton{
+  background:var(--friend-card);
+  color:var(--friend-heading);
+  border-color:var(--friend-border);
+}
+
+.adminPanel{
+  background:var(--friend-input);
+  border-color:var(--friend-border);
+}
+
+.note,
+.status{
+  color:#52634d;
+}
+
