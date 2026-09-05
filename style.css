@@ -33,3 +33,67 @@ textarea:focus{outline:3px solid rgba(18,61,44,.12);border-color:#123d2c}
 
 .primary:hover,.secondary:hover{background:#0d3425}
 .primary:active,.secondary:active{transform:translateY(1px)}
+
+
+/* v1.5 — visual alignment with the other Golf apps */
+html{
+  background:#dfeadf;
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  margin:0;
+  background:#dfeadf !important;
+}
+
+/* Keep the conversation readable on the soft green golf-app canvas. */
+.wrap,
+.app,
+.shell,
+main{
+  background:transparent;
+}
+
+/* Main application surface */
+.container{
+  background:#eef5ef;
+  border-radius:20px;
+}
+
+/* Cards stay subtly separated from the page background. */
+.questionCard{
+  background:#e3eee7 !important;
+}
+
+.answerCard{
+  background:#f4f8f5 !important;
+}
+
+/* Both initial and follow-up actions use the same primary golf-green treatment. */
+.primary,
+.secondary,
+button[type="submit"],
+.followupComposer button,
+.followup button,
+.chatComposer button{
+  background:#123d2c !important;
+  color:#fff !important;
+  border:0 !important;
+  font-weight:700;
+}
+
+.primary:hover,
+.secondary:hover,
+button[type="submit"]:hover,
+.followupComposer button:hover,
+.followup button:hover,
+.chatComposer button:hover{
+  background:#0d3425 !important;
+}
+
+@media (max-width:700px){
+  body{
+    background:#dfeadf !important;
+  }
+}

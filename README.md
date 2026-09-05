@@ -79,3 +79,10 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Yleinen 17-viite poistetaan, kun tarkempi 17.x-viite on mukana.
 - Kysy jatkokysymys -painike on nyt sama tummanvihreä pääpainike kuin ensimmäinen Kysy-painike.
 - Golf-sovellusten vihreää visuaalista linjaa yhtenäistetty kevyesti ilman keskustelurakenteen muuttamista.
+
+
+## v1.5
+- UI-only update; RAG logic and Rule 17 data are unchanged from v1.4.
+- Whole page now uses a soft light-green Golf-app background instead of white.
+- Question and answer cards remain visually separated on the green canvas.
+- Initial Kysy and Kysy jatkokysymys buttons use the same dark-green primary style.
