@@ -75,6 +75,13 @@ async function sendQuestion(text){
     answerText.textContent='Vastausta ei saatu: ' + err.message;
     answerText.classList.add('error');
     refs.textContent='';
+
+    // Never strand the user after an API/parser error.
+    // Keep the composer visible and prefill the failed question for an immediate retry/edit.
+    followComposer.classList.remove('hidden');
+    conversation.after(followComposer);
+    followQuestion.value=clean;
+    followQuestion.focus();
   }finally{
     ask.disabled=false;
     followAsk.disabled=false;

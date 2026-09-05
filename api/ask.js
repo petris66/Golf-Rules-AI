@@ -101,16 +101,24 @@ function lexicalScore(query, chunk){
 
 
 function parseAnswerPayload(raw){
-  const text=String(raw || '').trim();
+  let text=String(raw || '').trim();
   if(!text) return null;
+
+  // Strip common Markdown fences, including ```json ... ```.
+  text=text.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
+
   const candidates=[text];
-  const fenced=text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if(fenced) candidates.push(fenced[1].trim());
-  const first=text.indexOf('{'), last=text.lastIndexOf('}');
+  const first=text.indexOf('{');
+  const last=text.lastIndexOf('}');
   if(first>=0 && last>first) candidates.push(text.slice(first,last+1));
+
+  // First try normal JSON. Also tolerate a JSON string containing the object.
   for(const candidate of candidates){
     try{
-      const obj=JSON.parse(candidate);
+      let obj=JSON.parse(candidate);
+      if(typeof obj==='string'){
+        try{ obj=JSON.parse(obj); }catch(_){}
+      }
       if(obj && typeof obj.answer==='string'){
         return {
           answer:obj.answer.trim(),
@@ -119,15 +127,33 @@ function parseAnswerPayload(raw){
       }
     }catch(_){}
   }
-  // If JSON parsing failed, do not expose JSON syntax to the player.
-  if(/^\s*\{/.test(text) || /"answer"\s*:/.test(text)){
-    const m=text.match(/"answer"\s*:\s*"((?:\\.|[^"\\])*)"/s);
-    if(m){
-      try{return {answer:JSON.parse('"'+m[1]+'"'),rule_refs:[]};}catch(_){}
+
+  // Recover the answer field from slightly malformed JSON instead of exposing
+  // the raw object to the player. rule_refs are recovered separately when possible.
+  const answerMatch=text.match(/["']answer["']\s*:\s*["']([\s\S]*?)["']\s*(?:,\s*["']rule_refs["']\s*:|}\s*$)/i);
+  if(answerMatch){
+    let answer=answerMatch[1]
+      .replace(/\\n/g,'\n')
+      .replace(/\\"/g,'"')
+      .replace(/\\'/g,"'")
+      .replace(/\\\\/g,'\\')
+      .trim();
+
+    let refs=[];
+    const refsMatch=text.match(/["']rule_refs["']\s*:\s*\[([\s\S]*?)\]/i);
+    if(refsMatch){
+      refs=refsMatch[1].split(',')
+        .map(x=>x.trim().replace(/^["']|["']$/g,''))
+        .filter(Boolean);
     }
-    return null;
+    if(answer) return {answer,rule_refs:refs};
   }
-  return {answer:text,rule_refs:[]};
+
+  // A normal prose response is safe to display. Only JSON-looking content is blocked.
+  if(!/^\s*[\{\[]/.test(text) && !/["']answer["']\s*:/.test(text)){
+    return {answer:text,rule_refs:[]};
+  }
+  return null;
 }
 
 module.exports = async (req,res)=>{

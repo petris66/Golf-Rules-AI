@@ -96,3 +96,10 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Improved Rule 17.1c retrieval for a ball not found but known/virtually certain to be in a penalty area.
 - Complete new questions no longer inherit missing facts such as penalty-area colour from earlier turns.
 - Prompt now requires a short rule-reasoning chain for multi-step situations.
+
+
+## v1.7
+- Technical robustness update only; Rule 17 retrieval/data logic remains v1.6.
+- More tolerant parsing of OpenAI answer payloads while still blocking raw JSON from the player UI.
+- After an API/parser error the follow-up composer is always restored.
+- The failed question is prefilled so the player can retry immediately or edit it.
