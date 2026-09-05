@@ -137,7 +137,12 @@ function attachSpeech(button,target,status){
 attachSpeech(mic,question,speechStatus);
 attachSpeech(followMic,followQuestion,followSpeechStatus);
 
-// v2.0 admin entry: intentionally unobtrusive. A long press opens maintenance.
+// PWA app shell. API responses are never cached.
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+}
+
+// v2.0.1 admin entry: intentionally unobtrusive. A long press opens maintenance.
 const adminEntry=document.getElementById('adminEntry');
 const adminPanel=document.getElementById('adminPanel');
 const adminClose=document.getElementById('adminClose');
@@ -154,5 +159,5 @@ if(adminEntry){
 }
 if(adminClose) adminClose.addEventListener('click',()=>adminPanel.classList.add('hidden'));
 if(checkClarifications) checkClarifications.addEventListener('click',()=>{
-  adminStatus.textContent='v2.0-pohja on valmis. Automaattinen R&A-tarkistus kytketään vasta sääntöaineiston käyttöönoton jälkeen; mitään dataa ei muutettu.';
+  adminStatus.textContent='Sääntöaineisto on käytössä (Rules of Golf 2023 + Clarifications 1.7.2026). Automaattinen R&A-päivitystarkistus toteutetaan seuraavassa ylläpitovaiheessa; mitään dataa ei muutettu.';
 });

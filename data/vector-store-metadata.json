@@ -1,8 +1,8 @@
 {
-  "app_version": "2.0",
+  "app_version": "2.0.1",
   "rules_edition": "2023",
-  "clarifications_indexed": null,
-  "clarifications_last_checked": null,
+  "clarifications_indexed": "2026-07-01",
+  "clarifications_last_checked": "2026-09-05",
   "vector_store_env": "OPENAI_VECTOR_STORE_ID",
-  "status": "awaiting_vector_store_setup"
+  "status": "active"
 }

@@ -135,3 +135,12 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 2. Lisää koko hyväksytty sääntöaineisto vector storeen ja odota, että tiedostojen tila on `completed`.
 3. Lisää Verceliin ympäristömuuttuja `OPENAI_VECTOR_STORE_ID=vs_...`.
 4. Redeploy ja testaa ristiviittauskysymys (esim. Rule 17 + Rule 14).
+
+
+## v2.0.1 — PWA / mobile
+- Added `manifest.webmanifest`, app icons and `apple-touch-icon.png`.
+- Added lightweight service worker for the static app shell; `/api/` responses are not cached.
+- iPhone/iPad Home Screen name: `Golf Rules AI`.
+- Updated UI text: full Rules of Golf 2023 + R&A Clarifications 1.7.2026 are now in use.
+- Vector Store metadata updated to active.
+- Existing Vector Store/File Search backend and speech/chat logic are unchanged.

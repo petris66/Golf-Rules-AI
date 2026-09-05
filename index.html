@@ -4,13 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#123d2c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Golf Rules AI">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <title>Golf Rules AI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="wrap">
   <section class="card">
-    <div class="eyebrow">RAG v2.0 · KOKO SÄÄNTÖKIRJA</div>
+    <div class="eyebrow">RAG v2.0.1 · KOKO SÄÄNTÖKIRJA</div>
     <h1>Golf Rules AI</h1>
     <p class="lead">Kysy golfin säännöistä kirjoittamalla tai puhumalla.</p>
 
@@ -36,13 +41,13 @@
       <button id="followAsk" class="secondary" type="button">Kysy jatkokysymys</button>
     </section>
 
-    <p class="note">v2.0 käyttää OpenAI Vector Store / File Search -hakua. Koko sääntöaineisto kytketään seuraavassa käyttöönottovaiheessa.</p>
-    <button id="adminEntry" class="adminEntry" type="button" aria-label="Ylläpito" title="Ylläpito">v2.0</button>
+    <p class="note">Käytössä koko sääntökirja ja viralliset Clarifications (R&A). v2.0.1 käyttää OpenAI Vector Store / File Search -hakua.</p>
+    <button id="adminEntry" class="adminEntry" type="button" aria-label="Ylläpito" title="Ylläpito">v2.0.1</button>
 
     <section id="adminPanel" class="adminPanel hidden" aria-label="Ylläpito">
       <div class="adminHead"><strong>Sääntöaineiston ylläpito</strong><button id="adminClose" type="button">Sulje</button></div>
       <p>Rules of Golf: 2023</p>
-      <p>Clarifications indexed: odottaa käyttöönottoa</p>
+      <p>Clarifications indexed: 1.7.2026</p>
       <p>Latest R&A Clarifications: tarkistetaan ylläpitotoiminnolla</p>
       <button id="checkClarifications" class="secondary" type="button">Tarkista Clarifications</button>
       <div id="adminStatus" class="status">Tarkistus ei muuta sääntödataa.</div>

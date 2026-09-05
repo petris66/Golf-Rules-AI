@@ -1,0 +1,25 @@
+{
+  "name": "Golf Rules AI",
+  "short_name": "Golf Rules AI",
+  "description": "Golfin sääntöhaku kirjoittamalla tai puhumalla.",
+  "lang": "fi",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#cbdccc",
+  "theme_color": "#123d2c",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
