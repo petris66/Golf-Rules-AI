@@ -1,7 +1,7 @@
 {
   "dataset": "Golf Rules AI - Rule 17 RAG test",
   "language": "fi",
-  "version": "1.0",
+  "version": "1.6",
   "source": {
     "publisher": "The R&A",
     "title": "Golfin Säännöt - Sääntö 17: Estealueet",
@@ -28,11 +28,18 @@
       "title": "Milloin pallo on estealueella",
       "content": "Pallo on estealueella, jos jokin osa pallosta on estealueen rajojen sisäpuolella, koskettaa siellä maata tai muuta kohdetta tai on estealueen rajan yläpuolella.",
       "keywords": [
-        "pallo estealueella",
-        "raja",
+        "estealueen raja",
+        "merkkien välissä",
+        "osa pallosta",
         "paalu",
+        "pallo estealueella",
+        "pallo osittain estealueella",
+        "raja",
+        "rajalla",
+        "rajan yläpuolella",
         "viiva"
-      ]
+      ],
+      "text": " Pallo on estealueella, kun jokin osa pallosta on estealueen rajan sisäpuolella tai rajan yläpuolella; pallon ei tarvitse olla kokonaan estealueella."
     },
     {
       "id": "17.1b",
@@ -51,20 +58,24 @@
       "title": "Palloa ei löydy estealueelta",
       "content": "Jos palloa ei löydetä, estealueen vapautumista saa käyttää vain silloin, kun tiedetään tai on käytännössä varmaa, että pallo päätyi estealueelle. Jos pelaaja ei ole varma jäikö pallo estealueelle vai ylittikö se estealueen takarajan ja palloa ei löydy, estealueen vapautumista ei saa käyttää pelkän oletuksen perusteella. Tällöin palloa käsitellään kadonneena ja jatketaan säännön 18.2 mukaisella lyönti ja lyöntimatka -menettelyllä.",
       "keywords": [
-        "en löydä palloa",
-        "palloa ei löydy",
-        "kadonnut pallo",
-        "vesiesteen suuntaan",
-        "estealueen suuntaan",
-        "en ole varma",
         "ei ole varma",
-        "ylittikö takarajan",
+        "en löydä palloa",
+        "en löytänyt palloa",
+        "en ole varma",
+        "estealueen suuntaan",
         "estealueen takaraja",
+        "jäikö estealueelle",
+        "kadonnut pallo",
+        "käytännössä varma",
+        "käytännössä varmaa",
         "metsän puolella",
         "metsässä",
-        "käytännössä varmaa",
-        "jäikö estealueelle",
-        "tiedetään tai on käytännössä varmaa"
+        "palloa ei löydy",
+        "tiedetään olevan estealueella",
+        "tiedetään tai on käytännössä varmaa",
+        "varmasti estealueelle",
+        "vesiesteen suuntaan",
+        "ylittikö takarajan"
       ]
     },
     {
@@ -146,17 +157,20 @@
       "title": "Muiden vapautumissääntöjen käyttö estealueella",
       "content": "Kun pallo on estealueella, pelaaja ei saa ilmaista vapautumista epänormaalista kenttäolosuhteesta, maahan painuneesta pallosta (esimerkiksi oman lyönnin alastulojälkeen painuneesta pallosta) eikä pelaamattoman paikan perusteella. Pelaajan tavallinen vapautumisvaihtoehto on tällöin rangaistuksellinen vapautuminen säännön 17 perusteella. Vaarallisen eläimen tilanteeseen liittyy erillinen poikkeus.",
       "keywords": [
-        "tilapäinen vesi",
-        "maahan painunut",
-        "painunut pallo",
-        "omassa putoamisjäljessä",
-        "omassa alastulojäljessä",
-        "pallon jälki",
-        "uponnut",
-        "pelaamaton paikka",
-        "ilmainen vapautuminen",
+        "epänormaali kenttäolosuhde",
         "ilmainen droppi",
-        "nostaa pallon"
+        "ilmainen vapautuminen",
+        "maahan painunut",
+        "nostaa pallon",
+        "omassa alastulojäljessä",
+        "omassa putoamisjäljessä",
+        "painunut pallo",
+        "pallon jälki",
+        "pelaamaton paikka",
+        "pelaamaton pallo",
+        "tilapäinen vesi",
+        "uponnut",
+        "uponnut omaan jälkeensä"
       ]
     },
     {

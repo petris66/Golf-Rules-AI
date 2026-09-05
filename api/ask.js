@@ -67,6 +67,18 @@ function lexicalScore(query, chunk){
   if(chunk.rule_ref==='17.3' && embedded) score+=0.60;
   if(chunk.rule_ref==='17.3' && embedded && freeRelief) score+=0.30;
 
+  const temporaryWater=/tilapainen vesi|tilapäinen vesi|epanormaali kenttaolosuhde|epänormaali kenttäolosuhde/.test(q);
+  if(chunk.rule_ref==='17.3' && temporaryWater) score+=1.45;
+
+  const boundaryCase=/(rajalla|rajan|merkkien valissa|merkkien välissä|osa pallosta|osittain)/.test(q)
+    && /(estealue|esteal)/.test(q);
+  if(chunk.rule_ref==='17.1a' && boundaryCase) score+=1.55;
+
+  const knownPenaltyLost=/(en loyta|en löydä|kadonn|ei loydy|ei löydy)/.test(q)
+    && /(varmasti|kaytannossa varma|käytännössä varma|tiedan|tiedän|nain sen|näin sen)/.test(q)
+    && /(estealue|vesieste)/.test(q);
+  if(chunk.id==='17.1c' && knownPenaltyLost) score+=1.75;
+
   // Strong boosts for the two practical Rule 17.1d intents tested by players.
   const redPenalty=/punai/.test(q) && /estealue|esteal/.test(q);
   const asksDrop=/drop|vapaut|mista saan|mistä saan/.test(q);
@@ -87,6 +99,37 @@ function lexicalScore(query, chunk){
   return score;
 }
 
+
+function parseAnswerPayload(raw){
+  const text=String(raw || '').trim();
+  if(!text) return null;
+  const candidates=[text];
+  const fenced=text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if(fenced) candidates.push(fenced[1].trim());
+  const first=text.indexOf('{'), last=text.lastIndexOf('}');
+  if(first>=0 && last>first) candidates.push(text.slice(first,last+1));
+  for(const candidate of candidates){
+    try{
+      const obj=JSON.parse(candidate);
+      if(obj && typeof obj.answer==='string'){
+        return {
+          answer:obj.answer.trim(),
+          rule_refs:Array.isArray(obj.rule_refs) ? obj.rule_refs.map(String) : []
+        };
+      }
+    }catch(_){}
+  }
+  // If JSON parsing failed, do not expose JSON syntax to the player.
+  if(/^\s*\{/.test(text) || /"answer"\s*:/.test(text)){
+    const m=text.match(/"answer"\s*:\s*"((?:\\.|[^"\\])*)"/s);
+    if(m){
+      try{return {answer:JSON.parse('"'+m[1]+'"'),rule_refs:[]};}catch(_){}
+    }
+    return null;
+  }
+  return {answer:text,rule_refs:[]};
+}
+
 module.exports = async (req,res)=>{
   if(req.method!=='POST'){
     res.status(405).json({error:'Use POST'});
@@ -105,9 +148,14 @@ module.exports = async (req,res)=>{
     const data=JSON.parse(fs.readFileSync(file,'utf8'));
     const chunks=data.chunks || [];
 
-    // Context is used in retrieval so short follow-ups ("Entä jos...") retain meaning.
+    // Use history only when the new turn is genuinely follow-up-like.
+    // A complete new question must not inherit facts (for example penalty-area colour)
+    // merely because they appeared earlier in the conversation.
     const historyText=history.map(m=>`${m.role}: ${m.content}`).join('\n');
-    const retrievalQuery=(historyText ? historyText+'\n' : '')+'user: '+question;
+    const qNorm=normalizeFi(question);
+    const followUpLike=/^(enta|entä|jos taas|mites|miten sitten|entäs|entäs jos)\b/.test(qNorm)
+      || question.trim().length < 38;
+    const retrievalQuery=(followUpLike && historyText ? historyText+'\n' : '')+'user: '+question;
 
     // Real embedding-based RAG. For this tiny Rule 17 test we embed the query
     // and all chunks in one request. Later the chunk embeddings can be precomputed.
@@ -183,12 +231,9 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
       throw new Error(`OpenAI-vastaus saatiin, mutta tekstisisältöä ei löytynyt${types ? ` (output: ${types})` : ''}.`);
     }
 
-    let parsed;
-    try{
-      const cleaned=raw.replace(/^```json\s*/i,'').replace(/```$/,'').trim();
-      parsed=JSON.parse(cleaned);
-    }catch(e){
-      parsed={answer:raw.replace(/\*\*/g,''),rule_refs:[]};
+    const parsed=parseAnswerPayload(raw);
+    if(!parsed || !parsed.answer){
+      throw new Error('Vastausta ei voitu jäsentää turvallisesti. Kysy sama kysymys uudelleen.');
     }
 
     const answer=String(parsed.answer || '').replace(/\*\*/g,'').trim();

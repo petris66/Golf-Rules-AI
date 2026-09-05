@@ -97,3 +97,29 @@ button[type="submit"]:hover,
     background:#dfeadf !important;
   }
 }
+
+
+/* v1.6 — Golf Friend Finder -henkinen vihreä hierarkia:
+   kysymyskortti vaalein -> sivutausta voimakkaampi -> toimintopainike tummin */
+html,
+body{
+  background:#cbdccc !important;
+}
+body{
+  min-height:100vh;
+}
+.questionCard{
+  background:#e3eee7 !important;
+}
+.answerCard{
+  background:#f5f8f5 !important;
+}
+.primary,
+.secondary,
+button[type="submit"],
+.followupComposer button,
+.followup button,
+.chatComposer button{
+  background:#123d2c !important;
+  color:#fff !important;
+}

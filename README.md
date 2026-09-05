@@ -86,3 +86,13 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Whole page now uses a soft light-green Golf-app background instead of white.
 - Question and answer cards remain visually separated on the green canvas.
 - Initial Kysy and Kysy jatkokysymys buttons use the same dark-green primary style.
+
+
+## v1.6
+- Stronger light-green page background; question card stays lighter and action buttons darkest green.
+- Hardened answer parsing so raw JSON is never intentionally passed to the chat UI.
+- Improved Rule 17.3 retrieval for temporary water / abnormal course conditions.
+- Improved Rule 17.1a retrieval for penalty-area boundary cases.
+- Improved Rule 17.1c retrieval for a ball not found but known/virtually certain to be in a penalty area.
+- Complete new questions no longer inherit missing facts such as penalty-area colour from earlier turns.
+- Prompt now requires a short rule-reasoning chain for multi-step situations.
