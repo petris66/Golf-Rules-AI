@@ -111,3 +111,11 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Includes the two-penalty-stroke sequence when stroke-and-distance is first taken back into the penalty area and further relief is then taken outside it.
 - Added a general retrieval boost for a ball played from a penalty area that returns to the same or another penalty area.
 - v1.7 parser/retry fixes retained.
+
+
+## v1.9
+- Responses API robustness: low reasoning effort and a larger output budget.
+- If a response contains only reasoning/incomplete output, the backend retries once with more output room.
+- Added Rule 17.1e source data for a no-play zone inside a penalty area.
+- Added general retrieval support for the no-play-zone concept.
+- v1.8 Rule 17.2a data and v1.7 parser/retry UI fixes retained.

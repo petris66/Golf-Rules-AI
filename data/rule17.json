@@ -1,7 +1,7 @@
 {
   "dataset": "Golf Rules AI - Rule 17 RAG test",
   "language": "fi",
-  "version": "1.8",
+  "version": "1.9",
   "source": {
     "publisher": "The R&A",
     "title": "Golfin Säännöt - Sääntö 17: Estealueet",
@@ -196,6 +196,20 @@
         "metsässä kadonnut"
       ],
       "source": "R&A Rules of Golf, Rule 18.2"
+    },
+    {
+      "id": "17.1e",
+      "rule_ref": "17.1e",
+      "title": "Vapautuminen kielletyltä pelialueelta estealueella",
+      "content": "Jos pallo on estealueella olevalla kielletyllä pelialueella, palloa ei saa pelata sijaintipaikaltaan. Pelaajan täytyy ottaa rangaistuksellinen vapautuminen estealueelta säännön 17.1d tai 17.2 mukaisesti. Jos kielletty pelialue haittaa lyöntiasentoa tai svingin aluetta pallon ollessa muualla samalla estealueella, pelaaja ei saa pelata palloa sellaisena kuin se on, vaan hänen täytyy ottaa sääntöjen sallima vapautuminen.",
+      "keywords": [
+        "kielletty pelialue",
+        "no play zone",
+        "estealueella kielletty pelialue",
+        "saanko lyödä",
+        "ei saa pelata",
+        "pakollinen vapautuminen"
+      ]
     }
   ]
 }

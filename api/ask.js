@@ -94,6 +94,10 @@ function lexicalScore(query, chunk){
     && /(estealue|esteal)/.test(q);
   if(chunk.rule_ref==='17.2a' && replayedFromPenalty) score+=1.65;
 
+  const noPlayZone=/(kielletty pelialue|no play zone|kielletyksi pelialueeksi)/.test(q)
+    && /(estealue|esteal)/.test(q);
+  if(chunk.rule_ref==='17.1e' && noPlayZone) score+=2.00;
+
   const lostUncertain=/(en loyda|en löydä|kadonn|ei loydy|ei löydy)/.test(q)
     && /(en ole varma|ei ole varma|ylittiko|ylittikö|takaraja|mets|estealue|vesieste)/.test(q);
 
@@ -253,14 +257,33 @@ Muodosta vastaus juuri uuteen kysymykseen ottaen aiempi keskustelu huomioon.`;
       model:'gpt-5.6-luna',
       instructions,
       input,
-      max_output_tokens:500
+      reasoning:{effort:'low'},
+      max_output_tokens:1200
     });
 
-    const raw=outputText(response);
+    let finalResponse=response;
+    let raw=outputText(finalResponse);
     if(!raw){
-      const types=(Array.isArray(response?.output)?response.output:[])
+      const types=(Array.isArray(finalResponse?.output)?finalResponse.output:[])
         .map(x=>x?.type || 'unknown').join(', ');
-      throw new Error(`OpenAI-vastaus saatiin, mutta tekstisisältöä ei löytynyt${types ? ` (output: ${types})` : ''}.`);
+      const onlyReasoning=types && types.split(',').map(x=>x.trim()).filter(Boolean)
+        .every(x=>x==='reasoning');
+
+      if(onlyReasoning || finalResponse?.status==='incomplete'){
+        finalResponse=await openai('/responses',{
+          model:'gpt-5.6-luna',
+          instructions,
+          input,
+          reasoning:{effort:'low'},
+          max_output_tokens:2400
+        });
+        raw=outputText(finalResponse);
+      }
+    }
+    if(!raw){
+      const types=(Array.isArray(finalResponse?.output)?finalResponse.output:[])
+        .map(x=>x?.type || 'unknown').join(', ');
+      throw new Error(`OpenAI-vastaus saatiin, mutta lopullista tekstivastausta ei löytynyt${types ? ` (output: ${types})` : ''}.`);
     }
 
     const parsed=parseAnswerPayload(raw);
