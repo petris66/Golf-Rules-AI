@@ -130,3 +130,16 @@ button[type="submit"],
 .adminHead{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .adminHead button{background:transparent!important;color:#173e2e!important;border:1px solid #9bb5a4!important;border-radius:8px;padding:6px 10px}
 .adminPanel p{margin:9px 0;font-size:14px}
+
+.answerSpeechControls{margin-top:14px}
+.speakButton{
+  border:1px solid #b9cbbd;
+  background:#e7f0e9;
+  color:#123d2c;
+  border-radius:10px;
+  padding:9px 12px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+}
+.speakButton:active{transform:translateY(1px)}

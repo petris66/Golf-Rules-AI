@@ -144,3 +144,17 @@ Live Server näyttää käyttöliittymän, mutta `/api/ask` tarvitsee Vercelin s
 - Updated UI text: full Rules of Golf 2023 + R&A Clarifications 1.7.2026 are now in use.
 - Vector Store metadata updated to active.
 - Existing Vector Store/File Search backend and speech/chat logic are unchanged.
+
+
+## v2.0.2 — spoken answers
+- Successful rule answers are read aloud automatically with the device's speech synthesis.
+- Finnish (`fi-FI`) is requested; a Finnish system voice is preferred when available.
+- Each answer also has a `🔊 Kuuntele vastaus` replay button.
+- Starting speech recognition stops any currently playing spoken answer.
+- Text answers remain visible exactly as before.
+
+
+## v2.0.3 — optional spoken answers
+- Full answers are no longer read automatically.
+- When an answer is ready, the app only announces `Vastaus annettu.`
+- The user can listen to the full answer with `🔊 Kuuntele vastaus`.

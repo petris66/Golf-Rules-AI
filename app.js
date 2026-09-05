@@ -9,7 +9,54 @@ const followAsk=document.getElementById('followAsk');
 const followMic=document.getElementById('followMic');
 const followSpeechStatus=document.getElementById('followSpeechStatus');
 
+
 const history=[];
+let speechOutputEnabled=true;
+
+function getFinnishVoice(){
+  const voices=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  return voices.find(v=>/^fi(-|_)/i.test(v.lang))
+    || voices.find(v=>/Finnish|Suomi/i.test(v.name))
+    || null;
+}
+
+function speakAnswer(text){
+  if(!speechOutputEnabled || !('speechSynthesis' in window) || !text) return;
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(String(text));
+  utterance.lang='fi-FI';
+  utterance.rate=1.0;
+  utterance.pitch=1.0;
+  const voice=getFinnishVoice();
+  if(voice) utterance.voice=voice;
+  window.speechSynthesis.speak(utterance);
+}
+
+function announceAnswerReady(){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance('Vastaus annettu.');
+  utterance.lang='fi-FI';
+  const voice=getFinnishVoice();
+  if(voice) utterance.voice=voice;
+  window.speechSynthesis.speak(utterance);
+}
+
+function addSpeechControls(answerCard,text){
+  if(!('speechSynthesis' in window)) return;
+  const controls=document.createElement('div');
+  controls.className='answerSpeechControls';
+
+  const replay=document.createElement('button');
+  replay.type='button';
+  replay.className='speakButton';
+  replay.textContent='🔊 Kuuntele vastaus';
+  replay.setAttribute('aria-label','Kuuntele vastaus');
+  replay.addEventListener('click',()=>speakAnswer(text));
+
+  controls.appendChild(replay);
+  answerCard.appendChild(controls);
+}
 
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -60,6 +107,8 @@ async function sendQuestion(text){
       ? 'Säännöt: ' + data.rule_refs.join(', ')
       : '';
     answerCard.classList.remove('loading');
+    addSpeechControls(answerCard,data.answer || '');
+    announceAnswerReady();
 
     history.push({role:'user',content:clean});
     history.push({role:'assistant',content:data.answer || '',rule_refs:data.rule_refs || []});
@@ -120,6 +169,7 @@ function attachSpeech(button,target,status){
   rec.interimResults=false;
   rec.maxAlternatives=1;
   button.addEventListener('click',()=>{
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
     status.textContent='Kuuntelen…';
     button.classList.add('listening');
     try{rec.start();}catch(e){}
