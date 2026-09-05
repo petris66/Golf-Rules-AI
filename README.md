@@ -197,3 +197,12 @@ Release baseline: v2.0.3
 - Primary buttons: `#2f7d3e`
 - Inputs / answer surface: `#f7fff2`
 - Functional logic, RAG, speech input/output and API behavior unchanged.
+
+
+## v2.0.5 — Friend Finder visual hierarchy fix
+- Corrects earlier CSS precedence that kept the page canvas pale.
+- Dark grass-green page/background (`#4f7d3a`) now remains visible around the app.
+- Main app surface and question cards use Friend Finder light green (`#dcefcf`).
+- Inputs and answer cards use near-white green (`#f7fff2`).
+- Buttons use Friend Finder green (`#2f7d3e`).
+- No changes to RAG, rules, API or speech logic.

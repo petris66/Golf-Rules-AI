@@ -221,3 +221,100 @@ h1{
   color:#52634d;
 }
 
+
+
+/* --- v2.0.5: match Golf Friend Finder hierarchy from iPhone reference --- */
+html,
+body{
+  min-height:100%;
+  background:#4f7d3a !important;
+}
+
+body{
+  color:#17351d;
+}
+
+.wrap{
+  max-width:780px;
+  margin:0 auto;
+  padding:28px 16px 36px;
+  background:transparent !important;
+}
+
+/* Rules AI's current single outer card becomes the Friend Finder style
+   green application surface instead of a pale full-page sheet. */
+.wrap > .card{
+  background:#dcefcf !important;
+  border:1px solid #b8d59f !important;
+  border-radius:22px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+
+/* Strong Friend Finder greens */
+h1,
+label,
+.eyebrow,
+.questionLabel,
+.answerLabel,
+.refs{
+  color:#24552d !important;
+}
+
+.primary,
+.secondary,
+button[type="submit"],
+.followupComposer button,
+.followup button,
+.chatComposer button{
+  background:#2f7d3e !important;
+  color:#fff !important;
+  border:0 !important;
+}
+
+.primary:hover,
+.secondary:hover,
+button[type="submit"]:hover,
+.followupComposer button:hover,
+.followup button:hover,
+.chatComposer button:hover{
+  background:#245f2d !important;
+}
+
+/* Inputs and answer cards are the near-white Friend Finder field color. */
+textarea,
+.mic{
+  background:#f7fff2 !important;
+  border:1px solid #a9c88f !important;
+  color:#17351d !important;
+}
+
+.questionCard{
+  background:#dcefcf !important;
+  border:1px solid #a9c88f !important;
+}
+
+.answerCard{
+  background:#f7fff2 !important;
+  border:1px solid #b8d59f !important;
+}
+
+.speakButton{
+  background:#f7fff2 !important;
+  color:#24552d !important;
+  border:1px solid #a9c88f !important;
+}
+
+.adminPanel{
+  background:#f7fff2 !important;
+  border-color:#b8d59f !important;
+}
+
+/* Keep visible dark-green gutters like Friend Finder on iPhone. */
+@media(max-width:520px){
+  .wrap{
+    padding:14px 10px 28px;
+  }
+  .wrap > .card{
+    padding:18px;
+  }
+}
