@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#123d2c">
+  <title>Golf Rules AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap">
+  <section class="card">
+    <div class="eyebrow">RAG-TESTIVERSIO v1.0 · SÄÄNTÖ 17</div>
+    <h1>Golf Rules AI</h1>
+    <p class="lead">Kysy golfin säännöistä kirjoittamalla tai puhumalla.</p>
+
+    <section id="startComposer" class="composer">
+      <label for="question">Kysymyksesi</label>
+      <div class="askrow">
+        <textarea id="question" rows="3" placeholder="Esim. Palloni meni punaiseen estealueeseen. Mistä saan dropata?"></textarea>
+        <button id="mic" class="mic" type="button" aria-label="Puhu kysymys">🎤</button>
+      </div>
+      <div id="speechStatus" class="status"></div>
+      <button id="ask" class="primary" type="button">Kysy</button>
+    </section>
+
+    <section id="conversation" class="conversation" aria-live="polite"></section>
+
+    <section id="followComposer" class="composer follow hidden">
+      <label for="followQuestion">Kysy tästä lisää</label>
+      <div class="askrow">
+        <textarea id="followQuestion" rows="2" placeholder="Kirjoita jatkokysymys..."></textarea>
+        <button id="followMic" class="mic" type="button" aria-label="Puhu jatkokysymys">🎤</button>
+      </div>
+      <div id="followSpeechStatus" class="status"></div>
+      <button id="followAsk" class="secondary" type="button">Kysy jatkokysymys</button>
+    </section>
+
+    <p class="note">Testiversio käyttää vain R&A:n sääntöön 17 perustuvaa RAG-testiaineistoa. Vastauksessa näytetään haun käyttämät sääntöviitteet.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

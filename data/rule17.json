@@ -1,0 +1,137 @@
+{
+  "dataset": "Golf Rules AI - Rule 17 RAG test",
+  "language": "fi",
+  "version": "1.0",
+  "source": {
+    "publisher": "The R&A",
+    "title": "Golfin Säännöt - Sääntö 17: Estealueet",
+    "url": "https://www.randa.org/fi-FI/rog/the-rules-of-golf/rule-17",
+    "checked": "2026-09-05"
+  },
+  "chunks": [
+    {
+      "id": "17-overview",
+      "rule_ref": "17",
+      "title": "Estealueet – tarkoitus",
+      "content": "Sääntö 17 koskee punaisia ja keltaisia estealueita. Pelaaja voi yleensä pelata pallon estealueelta sijaintipaikaltaan tai vapautua estealueen ulkopuolelle yhden lyönnin rangaistuksella.",
+      "keywords": [
+        "estealue",
+        "vesieste",
+        "punainen",
+        "keltainen",
+        "rangaistus"
+      ]
+    },
+    {
+      "id": "17.1a",
+      "rule_ref": "17.1a",
+      "title": "Milloin pallo on estealueella",
+      "content": "Pallo on estealueella, jos jokin osa pallosta on estealueen rajojen sisäpuolella, koskettaa siellä maata tai muuta kohdetta tai on estealueen rajan yläpuolella.",
+      "keywords": [
+        "pallo estealueella",
+        "raja",
+        "paalu",
+        "viiva"
+      ]
+    },
+    {
+      "id": "17.1b",
+      "rule_ref": "17.1b",
+      "title": "Pallon pelaaminen estealueelta",
+      "content": "Estealueella olevan pallon saa yleensä pelata sijaintipaikaltaan ilman rangaistusta. Vaihtoehtona on vapautuminen estealueen ulkopuolelle säännön 17 mukaisella rangaistuksella.",
+      "keywords": [
+        "pelaa paikaltaan",
+        "lyödä estealueelta",
+        "rangaistus"
+      ]
+    },
+    {
+      "id": "17.1c",
+      "rule_ref": "17.1c",
+      "title": "Palloa ei löydy estealueelta",
+      "content": "Jos palloa ei löydy mutta tiedetään tai on käytännössä varmaa, että se pysähtyi estealueelle, pelaaja voi vapautua estealuesäännön perusteella. Jos tätä varmuutta ei ole ja pallo on kadonnut, sovelletaan kadonneen pallon lyönti ja lyöntimatka -menettelyä.",
+      "keywords": [
+        "kadonnut pallo",
+        "ei löydy",
+        "käytännössä varma",
+        "lampi",
+        "vesi"
+      ]
+    },
+    {
+      "id": "17.1d-common",
+      "rule_ref": "17.1d",
+      "title": "Estealueelta vapautumisen perusvaihtoehdot",
+      "content": "Kun pallo on estealueella tai tiedetään tai on käytännössä varmaa, että se on siellä, rangaistuksellisia vapautumisvaihtoehtoja ovat lyönti ja lyöntimatka sekä linjassa taaksepäin -vapautuminen. Punaiselta estealueelta on lisäksi käytettävissä sivuttainen vapautuminen. Kaikki nämä vaihtoehdot maksavat yhden rangaistuslyönnin.",
+      "keywords": [
+        "vapautuminen",
+        "droppi",
+        "dropata",
+        "rangaistus",
+        "estealue"
+      ]
+    },
+    {
+      "id": "17.1d-estimate",
+      "rule_ref": "17.1d",
+      "title": "Estealueen rajan ylityskohdan arvioiminen",
+      "content": "Jos tarkkaa kohtaa, jossa pallo viimeksi ylitti estealueen rajan, ei tiedetä, kohta arvioidaan. Arvioitua kohtaa käytetään tarvittavana vertailupisteenä vapautumista varten.",
+      "keywords": [
+        "en tiedä ylityskohtaa",
+        "arvioitu piste",
+        "arvioidaan",
+        "rajan ylitys",
+        "vertailupiste"
+      ]
+    },
+    {
+      "id": "17.1d-yellow",
+      "rule_ref": "17.1d",
+      "title": "Vapautuminen keltaiselta estealueelta",
+      "content": "Keltaiselta estealueelta pelaaja voi yhden rangaistuslyönnin hinnalla käyttää lyönti ja lyöntimatka -vapautumista tai linjassa taaksepäin -vapautumista. Linjassa taaksepäin käytetään kohtaa, jossa pallo viimeksi ylitti estealueen rajan; jos kohtaa ei tiedetä tarkasti, se arvioidaan.",
+      "keywords": [
+        "keltainen estealue",
+        "keltainen vesieste",
+        "droppi",
+        "linjassa taaksepäin"
+      ]
+    },
+    {
+      "id": "17.1d-red",
+      "rule_ref": "17.1d",
+      "title": "Vapautuminen punaiselta estealueelta",
+      "content": "Punaiselta estealueelta pelaajalla on yhden rangaistuslyönnin hinnalla kolme vaihtoehtoa: lyönti ja lyöntimatka, linjassa taaksepäin sekä sivuttainen vapautuminen. Sivuttaisessa vapautumisessa vertailupiste on arvioitu kohta, jossa pallo viimeksi ylitti punaisen estealueen rajan. Vapautumisalue on kaksi mailanmittaa tästä pisteestä eikä saa olla lähempänä reikää.",
+      "keywords": [
+        "punainen estealue",
+        "punainen vesieste",
+        "sivuttainen vapautuminen",
+        "kaksi mailanmittaa",
+        "droppi"
+      ]
+    },
+    {
+      "id": "17.2a",
+      "rule_ref": "17.2a",
+      "title": "Estealueelta pelattu pallo päätyy estealueelle",
+      "content": "Jos estealueelta pelattu pallo päätyy samaan tai toiseen estealueeseen, pelaaja voi pelata sen paikaltaan tai käyttää säännön 17 mukaisia rangaistuksellisia vapautumisvaihtoehtoja. Joissakin tilanteissa käytössä on myös paluu paikkaan, josta edellinen lyönti estealueen ulkopuolelta pelattiin.",
+      "keywords": [
+        "uudelleen estealueelle",
+        "estealueelta lyöty",
+        "sama estealue",
+        "toinen estealue"
+      ]
+    },
+    {
+      "id": "17.3",
+      "rule_ref": "17.3",
+      "title": "Muiden vapautumissääntöjen käyttö estealueella",
+      "content": "Kun pallo on estealueella, pelaaja ei yleensä saa ilmaista vapautumista esimerkiksi epänormaalista kenttäolosuhteesta, maahan painuneesta pallosta tai pelaamattomasta paikasta. Estealueelta vapautuminen tehdään tällöin säännön 17 perusteella, ellei jokin erityinen poikkeus sovellu.",
+      "keywords": [
+        "tilapäinen vesi",
+        "maahan painunut",
+        "pelaamaton paikka",
+        "ilmainen vapautuminen"
+      ]
+    }
+  ]
+}
