@@ -235,3 +235,10 @@ Release baseline: v2.0.3
 - The assistant must ask the game format before giving a final penalty when the formats differ.
 - It must not substitute a list of both possible penalties for the required clarification.
 - No changes to UI, PWA, speech, Vector Store corpus or model.
+
+
+## v2.0.10 — conditional game-format gate
+- Game format is asked only when the retrieved rules show that stroke play vs match play actually changes this specific ruling.
+- A rules exception that gives the same outcome in both formats is applied directly.
+- Prevents unnecessary game-format questions in cases such as accidental movement of a ball on the putting green.
+- No changes to UI, PWA, speech, Vector Store corpus or model.
