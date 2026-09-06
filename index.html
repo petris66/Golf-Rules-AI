@@ -15,7 +15,7 @@
 <body>
 <main class="wrap">
   <section class="card">
-    <div class="eyebrow">RAG v2.0.7 · KOKO SÄÄNTÖKIRJA</div>
+    <div class="eyebrow">RAG v2.0.8 · KOKO SÄÄNTÖKIRJA</div>
     <h1>Golf Rules AI</h1>
     <p class="lead">Kysy golfin säännöistä kirjoittamalla tai puhumalla.</p>
 
@@ -38,11 +38,14 @@
         <button id="followMic" class="mic" type="button" aria-label="Puhu jatkokysymys">🎤</button>
       </div>
       <div id="followSpeechStatus" class="status"></div>
-      <button id="followAsk" class="secondary" type="button">Kysy jatkokysymys</button>
+      <div class="followActions">
+        <button id="followAsk" class="secondary" type="button">Kysy jatkokysymys</button>
+        <button id="newQuestion" class="newQuestionButton" type="button">Uusi kysymys</button>
+      </div>
     </section>
 
-    <p class="note">Käytössä koko sääntökirja ja viralliset Clarifications (R&A). v2.0.7 käyttää OpenAI Vector Store / File Search -hakua. Valmiin vastauksen voi halutessaan kuunnella ääneen.</p>
-    <button id="adminEntry" class="adminEntry" type="button" aria-label="Ylläpito" title="Ylläpito">v2.0.7</button>
+    <p class="note">Käytössä koko sääntökirja ja viralliset Clarifications (R&A). v2.0.8 käyttää OpenAI Vector Store / File Search -hakua. Valmiin vastauksen voi halutessaan kuunnella ääneen.</p>
+    <button id="adminEntry" class="adminEntry" type="button" aria-label="Ylläpito" title="Ylläpito">v2.0.8</button>
 
     <section id="adminPanel" class="adminPanel hidden" aria-label="Ylläpito">
       <div class="adminHead"><strong>Sääntöaineiston ylläpito</strong><button id="adminClose" type="button">Sulje</button></div>

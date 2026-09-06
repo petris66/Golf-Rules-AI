@@ -1,4 +1,4 @@
-const CACHE='golf-rules-ai-v2.0.7';
+const CACHE='golf-rules-ai-v2.0.8';
 const SHELL=['/','/index.html','/style.css','/app.js','/manifest.webmanifest',
 '/icons/icon-192.png','/icons/icon-512.png','/apple-touch-icon.png'];
 self.addEventListener('install',event=>{

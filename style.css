@@ -318,3 +318,22 @@ textarea,
     padding:18px;
   }
 }
+
+
+/* --- v2.0.8: explicit new-question path --- */
+.followActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.followActions button{margin-top:0 !important}
+.newQuestionButton{
+  background:#f7fff2 !important;
+  color:#24552d !important;
+  border:1px solid #a9c88f !important;
+  font-weight:800;
+}
+@media(max-width:520px){
+  .followActions{grid-template-columns:1fr}
+}

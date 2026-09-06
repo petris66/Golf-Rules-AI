@@ -221,3 +221,10 @@ Release baseline: v2.0.3
 - The assistant must not assume the most common situation when a missing fact could change yes/no, penalty, or procedure.
 - In such cases it asks one concise clarifying question before giving the final ruling.
 - No changes to UI, PWA, speech, Vector Store corpus or model.
+
+
+## v2.0.8 — new question reset
+- Adds an explicit `Uusi kysymys` action beside the follow-up flow.
+- Starting a new question clears conversation context and transcript, hides the follow-up composer, stops spoken output, and returns focus to the main question field.
+- Existing `Kysy tästä lisää` behavior remains unchanged.
+- No changes to rules reasoning, Vector Store corpus or API.

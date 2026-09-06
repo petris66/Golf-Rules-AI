@@ -8,6 +8,7 @@ const followQuestion=document.getElementById('followQuestion');
 const followAsk=document.getElementById('followAsk');
 const followMic=document.getElementById('followMic');
 const followSpeechStatus=document.getElementById('followSpeechStatus');
+const newQuestion=document.getElementById('newQuestion');
 
 
 const history=[];
@@ -156,6 +157,21 @@ followQuestion.addEventListener('keydown',e=>{
     if(text){followComposer.classList.add('hidden');sendQuestion(text);}
   }
 });
+
+
+function startNewQuestion(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  history.length=0;
+  conversation.innerHTML='';
+  followComposer.classList.add('hidden');
+  followQuestion.value='';
+  followSpeechStatus.textContent='';
+  question.value='';
+  speechStatus.textContent='';
+  question.focus();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+if(newQuestion) newQuestion.addEventListener('click',startNewQuestion);
 
 function attachSpeech(button,target,status){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
