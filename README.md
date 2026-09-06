@@ -214,3 +214,10 @@ Release baseline: v2.0.3
 - Yes/no questions start with a direct answer when the official material supports one.
 - Irrelevant relief options must not be mixed into the answer.
 - No changes to UI, PWA, speech, Vector Store corpus or model.
+
+
+## v2.0.7 — missing-fact gate
+- Adds a mandatory check for facts that can change the rules outcome.
+- The assistant must not assume the most common situation when a missing fact could change yes/no, penalty, or procedure.
+- In such cases it asks one concise clarifying question before giving the final ruling.
+- No changes to UI, PWA, speech, Vector Store corpus or model.
