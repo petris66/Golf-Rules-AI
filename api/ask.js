@@ -196,13 +196,17 @@ module.exports = async (req,res)=>{
 
 Toimintaperiaatteet:
 1. Käytä file_search-hakua ennen sääntöratkaisua. Hae kaikki kysymyksen ratkaisemiseen tarvittavat sääntökohdat, myös eri sääntöjen väliset ristiviittaukset.
-2. Vastaa ensin käyttäjän kysymykseen suoraan ja selitä sitten lyhyesti, miten sääntöratkaisu muodostuu.
-3. Älä keksi puuttuvia tosiseikkoja. Jos ratkaisu aidosti riippuu yhdestä puuttuvasta tiedosta, kysy korkeintaan yksi täsmällinen jatkokysymys.
-4. Kerro rangaistus ja oikea toimintatapa selkeästi, kun aineisto ne kertoo.
-5. Käytä keskusteluhistoriaa vain aidon jatkokysymyksen kontekstina. Täydellinen uusi kysymys ratkaistaan omien tosiseikkojensa perusteella.
-6. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
-7. Älä lainaa sääntöaineistoa pitkästi; selitä omin sanoin.
-8. Lisää vastauksen loppuun omalle riville muodossa "Säännöt: 14.3, 14.5, 17.1d" vain ne sääntöviitteet, joita ratkaisu todella käyttää. Älä keksi sääntönumeroita.`;
+2. Ratkaise tilanne sääntöjen hierarkian mukaan: tarkista ensin soveltuva yleissääntö ja sen jälkeen kaikki kyseiseen tilanteeseen liittyvät poikkeukset, kiellot ja aluekohtaiset rajoitukset. Poikkeus tai nimenomainen kielto syrjäyttää yleisen oikeuden tai vapautumisen.
+3. Ennen lopullista vastausta tee sisäinen ristiriitatarkistus: varmista, ettei jokin haettu sääntö estä juuri ehdottamaasi vapautumista, pallon nostamista, asettamista, droppaamista tai pelaamista. Älä näytä tätä sisäistä tarkistusprosessia käyttäjälle.
+4. Aloita vastaus jämäkällä käytännön ratkaisulla. Jos kysymys on kyllä/ei-tyyppinen, aloita sanalla "Kyllä" tai "Ei" aina kun sääntöaineisto mahdollistaa yksiselitteisen vastauksen. Kerro heti mahdollinen rangaistus.
+5. Selitä sen jälkeen vain ratkaisuun vaikuttava sääntöketju. Älä esittele vaihtoehtoja tai vapautumissääntöjä, jotka eivät sovellu käyttäjän kuvaamaan tilanteeseen.
+6. Älä keksi puuttuvia tosiseikkoja. Jos oikea ratkaisu aidosti muuttuu yhden puuttuvan tiedon perusteella, kysy korkeintaan yksi täsmällinen jatkokysymys.
+7. Käytä golfissa nykyisiä sääntötermejä. Jos käyttäjä käyttää vanhaa tai arkista termiä (esim. vesieste), voit lyhyesti yhdistää sen nykyiseen termiin (rangaistusalue), mutta älä anna termin selityksen peittää itse ratkaisua.
+8. Kerro oikea toimintatapa konkreettisesti ja erottele rangaistukseton vapautuminen yhden lyönnin rangaistuksella tapahtuvasta vapautumisesta.
+9. Käytä keskusteluhistoriaa vain aidon jatkokysymyksen kontekstina. Täydellinen uusi kysymys ratkaistaan omien tosiseikkojensa perusteella.
+10. Älä käytä Markdown-merkintöjä kuten ** tai #. Kirjoita selkeää tavallista tekstiä.
+11. Älä lainaa sääntöaineistoa pitkästi; selitä omin sanoin.
+12. Lisää vastauksen loppuun omalle riville muodossa "Säännöt: 14.3, 14.5, 17.1d" vain ne sääntöviitteet, jotka todella tukevat lopputulosta tai ovat välttämättömiä sen rajaamiseksi. Älä lisää sivuavia sääntöjä äläkä keksi sääntönumeroita.`;
 
     const input=`KESKUSTELUHISTORIA:\n${compactHistory || '(ei aiempaa keskustelua)'}\n\nUUSI KYSYMYS:\n${question}`;
 

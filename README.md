@@ -206,3 +206,11 @@ Release baseline: v2.0.3
 - Inputs and answer cards use near-white green (`#f7fff2`).
 - Buttons use Friend Finder green (`#2f7d3e`).
 - No changes to RAG, rules, API or speech logic.
+
+
+## v2.0.6 — stricter rules reasoning
+- Requires exception/prohibition checks before giving a rules conclusion.
+- A specific prohibition or exception overrides a general relief rule.
+- Yes/no questions start with a direct answer when the official material supports one.
+- Irrelevant relief options must not be mixed into the answer.
+- No changes to UI, PWA, speech, Vector Store corpus or model.
