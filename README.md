@@ -228,3 +228,10 @@ Release baseline: v2.0.3
 - Starting a new question clears conversation context and transcript, hides the follow-up composer, stops spoken output, and returns focus to the main question field.
 - Existing `Kysy tästä lisää` behavior remains unchanged.
 - No changes to rules reasoning, Vector Store corpus or API.
+
+
+## v2.0.9 — game-format clarification
+- Extends the missing-fact gate to game format when stroke play vs match play changes the penalty, procedure, or result.
+- The assistant must ask the game format before giving a final penalty when the formats differ.
+- It must not substitute a list of both possible penalties for the required clarification.
+- No changes to UI, PWA, speech, Vector Store corpus or model.
